@@ -1,0 +1,125 @@
+@import url("https://fonts.googleapis.com/css2?family=Coming+Soon&display=swap");
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #346;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: white;
+}
+
+h1 {
+  font-family: "Coming Soon", cursive;
+  font-size: 30px;
+  letter-spacing: 3px;
+  text-align: center;
+}
+
+#wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#canvas {
+  background-color: white;
+  border: 1px solid rgb(28, 45, 77);
+  cursor: crosshair;
+  border-radius: 10px;
+}
+
+#controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 800px;
+  position: relative;
+}
+
+#widthControl {
+  display: flex;
+  align-items: center;
+  flex-direction: column-reverse;
+}
+
+.widthExample {
+  background-color: black;
+  border-radius: 50%;
+  margin: 3px;
+  opacity: 0.4;
+}
+
+.widthExample:nth-child(1) {
+  width: 5px;
+  height: 5px;
+}
+
+.widthExample:nth-child(2) {
+  width: 10px;
+  height: 10px;
+}
+
+.widthExample:nth-child(3) {
+  width: 15px;
+  height: 15px;
+  opacity: 1;
+}
+
+.widthExample:nth-child(4) {
+  width: 20px;
+  height: 20px;
+}
+
+.widthExample:nth-child(5) {
+  width: 25px;
+  height: 25px;
+}
+
+.widthExample:hover {
+  cursor: pointer;
+  opacity: 1 !important;
+}
+
+#palette {
+  width: 80px;
+  height: calc(9 * 40px);
+  margin: 25px 0px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.colorSquare {
+  margin: 0px 1px 1px 0px;
+  width: 39px;
+  height: 39px;
+  border-radius: 3px;
+  transition: all 120ms;
+}
+
+.colorSquare:hover {
+  transform: scale(1.2);
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1;
+}
+
+#clearBtn {
+  margin-top: 10px;
+  font-size: 25px;
+  color: gray;
+  transition: all 400ms;
+}
+
+#clearBtn:hover {
+  color: rgb(255, 20, 20);
+  cursor: pointer;
+}
+
+#counterDiv {
+  font-size: 14px;
+  text-align: right;
+  position: absolute;
+  bottom: 5px;
+}

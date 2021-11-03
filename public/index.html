@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Draw Together!!</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
+      integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ="
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Draw Together</h1>
+    </header>
+    <div id="wrapper">
+      <canvas id="canvas" width="800" height="800"> </canvas>
+      <div id="controls">
+        <div id="widthControl" title="choose a line width">
+          <div class="widthExample"></div>
+          <div class="widthExample"></div>
+          <div class="widthExample"></div>
+          <div class="widthExample"></div>
+          <div class="widthExample"></div>
+        </div>
+        <div id="palette" title="choose a color"></div>
+
+        <div id="clearBtn" title="clear the canvas">
+          <i class="fa fa-trash" aria-hidden="true"></i>
+        </div>
+
+        <div id="counterDiv">
+          <span id="counter">0</span> users <br />are online
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script type="module" src="./client.js"></script>
+</html>

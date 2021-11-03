@@ -1,0 +1,20 @@
+{
+  "name": "drawing_together",
+  "version": "1.0.0",
+  "description": "Learning Socket.IO with Shared Drawing",
+  "main": "index.js",
+  "scripts": {
+    "dev":"nodemon server.js",
+    "start":"node server.js"
+  },
+  "keywords": [],
+  "author": "Yoonhero",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^4.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.14"
+  }
+}
