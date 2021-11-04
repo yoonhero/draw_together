@@ -13,9 +13,6 @@
     <link rel="stylesheet" type="text/css" href="./style.css" />
   </head>
   <body>
-    <header>
-      <h1>Draw Together</h1>
-    </header>
     <div id="wrapper">
       <canvas id="canvas" width="800" height="800"> </canvas>
       <div id="controls">
@@ -32,13 +29,14 @@
           <i class="fa fa-trash" aria-hidden="true"></i>
         </div>
 
-        <div id="counterDiv">
+        <div id="counterDiv" class="hidden">
           <span id="counter">0</span> users <br />are online
         </div>
       </div>
     </div>
   </body>
 
-  <script src="/socket.io/socket.io.js"></script>
+  <!-- <script src="/socket.io/socket.io.js"></script> -->
+  <script src="https://cdn.socket.io/4.3.2/socket.io.min.js" integrity="sha384-KAZ4DtjNhLChOB/hxXuKqhMLYvx3b5MlT55xPEiNmREKRzeEm+RVPlTnAn0ajQNs" crossorigin="anonymous"></script>
   <script type="module" src="./client.js"></script>
 </html>

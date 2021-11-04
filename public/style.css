@@ -17,8 +17,11 @@ h1 {
 
 #wrapper {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100vw;
+  height: 100vh;
 }
 
 #canvas {
@@ -26,21 +29,36 @@ h1 {
   border: 1px solid rgb(28, 45, 77);
   cursor: crosshair;
   border-radius: 10px;
+  width: 100%;
+  height: 100%;
 }
 
 #controls {
+  background: rgb(207, 212, 214);
+  background: linear-gradient(
+    90deg,
+    rgba(207, 212, 214, 1) 0%,
+    rgba(174, 186, 189, 1) 100%
+  );
+  padding: 10px;
+  margin: 10px;
+  gap: 20px;
+  position: absolute;
+  top: 0;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  height: 800px;
-  position: relative;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  border-radius: 20px;
+  max-width: 800px;
 }
 
 #widthControl {
   display: flex;
   align-items: center;
   flex-direction: column-reverse;
+  flex-direction: row;
 }
 
 .widthExample {
@@ -82,31 +100,29 @@ h1 {
 }
 
 #palette {
-  width: 80px;
-  height: calc(9 * 40px);
   margin: 25px 0px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex-wrap: wrap;
 }
 
 .colorSquare {
-  margin: 0px 1px 1px 0px;
-  width: 39px;
-  height: 39px;
+  margin: 1px;
+  width: 30px;
+  height: 30px;
   border-radius: 3px;
   transition: all 120ms;
 }
 
 .colorSquare:hover {
-  transform: scale(1.2);
+  transform: scale(1.1);
   border-radius: 50%;
   cursor: pointer;
   z-index: 1;
 }
 
 #clearBtn {
-  margin-top: 10px;
+  padding: 10px;
   font-size: 25px;
   color: gray;
   transition: all 400ms;
@@ -122,4 +138,8 @@ h1 {
   text-align: right;
   position: absolute;
   bottom: 5px;
+}
+
+.hidden {
+  display: none;
 }
