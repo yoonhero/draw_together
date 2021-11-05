@@ -1,37 +1,47 @@
 const express = require("express");
 const app = express();
+const http = require("http");
+
 const PORT = process.env.PORT || 3000;
-const server = app.listen(PORT, () =>
-  console.log("Server running on Port", PORT)
-);
+const server = http.createServer(app);
+
 app.use(express.static("public"));
 
-const socket = require("socket.io");
-const io = socket(server);
+const { Server } = require("socket.io");
+const io = new Server(server);
 
-let socketNumber = 0;
+let socketNumber = {};
 
-const drawQueue = [];
+const drawQueue = {};
 
-io.on("connect", (socket) => {
-  socketNumber++;
+io.on("connection", (socket) => {
+  console.log("new user connected");
 
-  io.emit("socketNumber", socketNumber);
-
-  drawQueue.forEach(([...args]) => socket.emit("drawing", ...args));
-
-  socket.on("clearCanvas", () => {
-    drawQueue.length = 0;
-    io.emit("clearCanvas");
+  socket.on("join_room", (roomName) => {
+    socket.join(roomName);
+    drawQueue[roomName].forEach(([...args]) =>
+      socket.to(roomName).emit("drawing", ...args)
+    );
+    socketNumber[roomName]++;
+    io.to(roomName).emit("socketNumber", socketNumber[roomName]);
   });
 
-  socket.on("drawing", (...args) => {
-    drawQueue.push([...args]);
-    io.emit("drawing", ...args);
+  socket.on("clearCanvas", (roomName) => {
+    drawQueue[roomName].length = 0;
+    io.to(roomName).emit("clearCanvas");
   });
 
-  socket.on("disconnect", () => {
-    socketNumber--;
-    io.emit("socketNumber", socketNumber);
+  socket.on("drawing", (roomName, drawColor, lineWidth, lastPos, xyPos) => {
+    drawQueue[roomName].push([drawColor, lineWidth, lastPos, xyPos]);
+    io.to(roomName).emit("drawing", [drawColor, lineWidth, lastPos, xyPos]);
   });
+
+  socket.on("disconnect", (roomName) => {
+    socketNumber[roomName]--;
+    io.to(roomName).emit("socketNumber", socketNumber[roomName]);
+  });
+});
+
+server.listen(PORT, () => {
+  console.log("Start Server 🚀");
 });
