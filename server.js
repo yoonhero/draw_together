@@ -20,29 +20,50 @@ const drawQueue = {};
 io.on("connection", (socket) => {
   console.log("new user connected");
 
-  // socket.on("hello", (data, data2, data3) => {
-  //   console.log(data, data2, data3);
+  socket.on("hello", (data, data2, data3) => {
+    console.log(data, data2, data3);
 
-  //   io.emit("metoo", "what's up?");
-  // });
+    io.emit("metoo", "what's up?");
+  });
 
   socket.on("join_room", (roomName) => {
     socket.join(roomName);
-    drawQueue[roomName].forEach(([...args]) =>
-      socket.to(roomName).emit("drawing", ...args)
-    );
-    socketNumber[roomName]++;
+    socket.emit("enter_room_success");
+    console.log(socket.id, "enter Room: ", roomName);
+
+    if (drawQueue[roomName] !== undefined) {
+      // send drawing data
+      drawQueue[roomName].forEach(([...args]) =>
+        io.to(roomName).emit("drawing", ...args)
+      );
+    } else {
+      drawQueue[roomName] = [];
+    }
+
+    if (socketNumber[roomName] !== undefined) {
+      // socket number + 1
+      socketNumber[roomName]++;
+    } else {
+      socketNumber[roomName] = 1;
+    }
+
     io.to(roomName).emit("socketNumber", socketNumber[roomName]);
   });
 
   socket.on("clearCanvas", (roomName) => {
-    drawQueue[roomName].length = 0;
+    if (drawQueue[roomName]) {
+      drawQueue[roomName].length = 0;
+    }
     io.to(roomName).emit("clearCanvas");
   });
 
   socket.on("drawing", (roomName, drawColor, lineWidth, lastPos, xyPos) => {
-    drawQueue[roomName].push([drawColor, lineWidth, lastPos, xyPos]);
-    io.to(roomName).emit("drawing", [drawColor, lineWidth, lastPos, xyPos]);
+    if (drawQueue[roomName]) {
+      drawQueue[roomName].push([drawColor, lineWidth, lastPos, xyPos]);
+    } else {
+      drawQueue[roomName] = [[drawColor, lineWidth, lastPos, xyPos]];
+    }
+    io.to(roomName).emit("drawing", drawColor, lineWidth, lastPos, xyPos);
   });
 
   socket.on("disconnect", (roomName) => {
