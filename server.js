@@ -20,16 +20,13 @@ const drawQueue = {};
 io.on("connection", (socket) => {
   console.log("new user connected");
 
-  socket.on("hello", (data, data2, data3) => {
-    console.log(data, data2, data3);
-
-    io.emit("metoo", "what's up?");
-  });
+  let roomName = "";
 
   socket.on("join_room", (roomName) => {
+    roomName = roomName;
     socket.join(roomName);
     socket.emit("enter_room_success");
-    console.log(socket.id, "enter Room: ", roomName);
+    console.log(socket.id, "enter Room:", roomName);
 
     if (drawQueue[roomName] !== undefined) {
       // send drawing data
@@ -40,9 +37,9 @@ io.on("connection", (socket) => {
       drawQueue[roomName] = [];
     }
 
-    if (socketNumber[roomName] !== undefined) {
+    if (socketNumber[roomName]) {
       // socket number + 1
-      socketNumber[roomName]++;
+      socketNumber[roomName] = socketNumber[roomName] + 1;
     } else {
       socketNumber[roomName] = 1;
     }
@@ -66,8 +63,17 @@ io.on("connection", (socket) => {
     io.to(roomName).emit("drawing", drawColor, lineWidth, lastPos, xyPos);
   });
 
+  socket.on("leave_room", (roomName) => {
+    if (socketNumber[roomName]) {
+      socketNumber[roomName] = socketNumber[roomName] - 1;
+    }
+    io.to(roomName).emit("socketNumber", socketNumber[roomName]);
+  });
+
   socket.on("disconnect", (roomName) => {
-    socketNumber[roomName]--;
+    if (socketNumber[roomName]) {
+      socketNumber[roomName] = socketNumber[roomName] - 1;
+    }
     io.to(roomName).emit("socketNumber", socketNumber[roomName]);
   });
 });
